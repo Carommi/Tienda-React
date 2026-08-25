@@ -1,19 +1,18 @@
+import { useState } from 'react';
 import ProductoCard from './components/ProductoCard';
 import { productos } from './data/productos';
 import './App.css';
 
 function App() {
-  // Productos disponibles
-  const disponibles = productos.filter(producto => producto.stock > 0);
 
-  // ¿Existe algún producto agotado?
-  const hayAgotados = productos.some(producto => producto.stock === 0);
+  const [busqueda, setBusqueda] = useState('');
 
-  // Valor total del inventario
-  const valorInventario = productos.reduce(
-    (total, producto) => total + producto.precio * producto.stock,
-    0
+  const productosFiltrados = productos.filter(producto =>
+    producto.nombre
+      .toLowerCase()
+      .includes(busqueda.toLowerCase())
   );
+
 
   return (
     <main className="contenedor">
@@ -25,6 +24,15 @@ function App() {
           Encuentra los mejores productos para complementar tu espacio tecnológico.
         </p>
       </header>
+
+      <input
+        type="text"
+        placeholder="Buscar producto..."
+        value={busqueda}
+        onChange={(evento) => {
+          setBusqueda(evento.target.value);
+        }}
+      />
 
       <section className="resumen">
         <div className="resumen-card">
