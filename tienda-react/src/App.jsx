@@ -1,31 +1,30 @@
-function App() {
-  const nombre = 'Laura';
-  const ficha = 3409609;
+import ProductoCard from './components/ProductoCard';
+import { productos } from './data/productos';
+import './App.css';
 
-  return (
-    <main>
-      <h1>Hola {nombre}</h1>
-      <p>Ficha {ficha}</p>
-    </main>
+function App() {
+  const disponibles = productos.filter(producto => producto.stock > 0);
+  const valorInventario = productos.reduce(
+    (total, producto) => total + producto.precio * producto.stock,
+    0
   );
-}
 
-import ProductoCard from './ProductoCard';
-import { productos } from './productos';
-
-function App() {
   return (
-    <main>
+    <main className="contenedor">
       <h1>Tienda tecnológica</h1>
-      {productos.map(producto => (
-        <ProductoCard
-          key={producto.id}
-          producto={producto}
-        />
-      ))}
+      <p>Productos disponibles: {disponibles.length}</p>
+
+      <p>Valor del inventario: ${valorInventario}</p>
+      <section className="productos">
+        {productos.map(producto => (
+          <ProductoCard
+            key={producto.id}
+            producto={producto}
+          />
+        ))}
+      </section>
     </main>
   );
 }
-
 export default App;
 
